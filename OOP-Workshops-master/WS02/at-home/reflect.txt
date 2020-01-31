@@ -1,0 +1,37 @@
+Workshop 2 Reflection
+
+1. You need to allocate new dynamic memory when you increase the size of an existing array of dynamically allocated memory because when you initially created the dynamic memory, it allocated memory for the original array's specifications and nothing more. There isn't any available memory thus you must create a larger array and copy everything over.
+
+2. The array of characters for the kingdom's name is not held in dynamic memory therefore it does not need to be deleted. It is held in static memory.
+
+3. Although we have overloaded the display function, the compiler knows which definition to call based on which parameters pass through. The matching parameters will call the correct function.
+
+4. I have learned that you cannot add more elements into an array but instead create a larger array and copy everything over. It is also important to delete the old array to prevent any dynamic memory from still being used after the program has completed. I have also learned about overloading functions and how to utilize the correct function when needed. When copying from one array to another, I had to copy over strings which led me to using and learning about the cstring library.
+
+Quiz 1 Reflection
+
+2. A definition is a declaration (answer one of true or false):  TRUE
+
+3. A function’s signature consists of the function’s identifier, the function’s parameters and the order of parameters.
+
+4. The following program passes apple in the main program by reference to function discount(…).  Fill in the blanks.
+
+	#include <iostream>
+	struct Item { int sku; double price; };
+	void discount(Item  &x ) {
+		x.price *= 0.50;
+	}
+	int main() {
+		Item apple = {4664, 1.47};
+		discount( apple );
+		std::cout << apple.sku << “: “ << apple.price;
+	}
+
+5. Write a statement that declares an array of 6 pointers to floats in statically allocated memory
+	float* p[6]
+
+6. Declare the type of xxx in the statement below (complete the first part of the statement)
+	double* xxx = new double[n];
+
+7. Write a statement that deallocates the dynamically allocated memory for array myCourses[10]:
+	delete [] myCourses

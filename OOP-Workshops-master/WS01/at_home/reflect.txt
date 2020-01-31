@@ -1,0 +1,9 @@
+1. A namespace provides a scope to identifiers which allows multiple namespace blocks with the same name. Can be used to make coding easier for teams using different languages (English, French, Spanish, etc.).
+
+2. A header file contains declarations for variables and function prototypes for their respective modules in a convenient fashion. This organization can also lead to faster compiling from the compiler.
+
+3. The header file only contains declarations and prototypes, so compiling them won't yield any results and serve no purpose.
+
+4. Each .cpp file includes definitions and sourcing from a .h file, if you include each .cpp file they would cause a compiler error with multiple definitions.
+
+5. In this workshop I have learned to disassemble a program and still have it function. I also learned the usefulness of namespace and also the efficiency of seperating a program into multiple modules. 

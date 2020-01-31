@@ -1,0 +1,10 @@
+Workshop 7 Reflection
+
+1. The base class (in this case, Hero) does not need to know about the derived class (SuperHero) because of class hierarchy. 
+
+
+2. The derived class (SuperHero) needs the instance variables from the base class (Hero) so it must be aware of the base class' existence.
+
+3. It had printed out "Ancient Battle!" because the base class (Hero) did not use the variables of the derived class.
+
+4. Both would be valid since the overloaded '*' operator returns a valid Hero class, in this case it would be the winner.

@@ -1,0 +1,13 @@
+Workshop 3 Reflection
+
+1. The amount of elements for each character string belonging to family or given name is 40 elements. This is set as a constant integer in the header file and allows 39 characters plus a null for each entry. To make it 40 characters plus null, I added one to the elements manually.
+
+2. There are two set functions but in C++ we are allowed to overload these functions because of their varying parameter order and number of parameters as well. Different arguments and ordering will allow C++ to choose the appropriate function when called.
+
+3. Firstly, I learned that there is a validation process for Social Insurance Numbers that is a very complicated process at first glance. Also, the usage of the modulus of 10 to store singular digits into an array was useful to know logic-wise. The usage of public member functions to access private instance variables was also good to have practical knowledge of.
+
+Quiz 3 Reflection
+
+Question 6.
+
+Instead of 'class OOP244' I should have written 'const OOP244' instead.

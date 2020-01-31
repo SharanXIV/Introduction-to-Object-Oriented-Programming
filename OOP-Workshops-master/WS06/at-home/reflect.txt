@@ -1,0 +1,7 @@
+Workshop 6 Reflection
+
+1. The copy constructor checks for self-assignment before doing anything else because we do not want to accidentally deallocate the memory of the source if it ends up being the same. This is to prevent lost data.
+
+2. I had attempted to reduce redundant code by running the default constructor whenever I needed to set empty state, but unfortunately it was prone to error. I tried to remove duplicate code but without breaking encapsulation it proved difficult. I had run a 3 argument constructor in the overloaded += operator to create a temporary object.
+
+3. This workshop helped me utilize and comprehend the copy constructor and copy assignment operators to a higher degree. Also, it helped gain familiarity with dynamic memory and debugging the errors that come with that.

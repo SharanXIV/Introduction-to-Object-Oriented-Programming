@@ -1,0 +1,15 @@
+Workshop 4 Reflection
+
+1. A safe empty state in your program means initializing an object's instance variables in the function constructor to zero or null. This is done so that objects do not cause error when the program is compiled. 
+
+2. We have reduced code duplication by running functions instead of writing out the full code for every entry. Also, by putting the logic within the return statement instead of creating boolean variables has also cut down on redundant code. We could have furthered this by running the default constructor whenever we need to set empty state.
+
+3. This function is within the same class as the instance variables that it is accessing, that is why this private data is accessible by the member function.
+
+4. You need to include the cstring library and also after the strncpy is done we need to ensure that there is a null terminator at the end of the character array.
+
+5. In this workshop I have learned how to set an empty state via constructors and also overloading constructors with multiple parameters. I have also learned to make my code more efficient by running the function constructor to set empty state.
+
+Quiz 4 Reflection
+
+1. A binary MEMBER operator receives two parameters. (Not two.)

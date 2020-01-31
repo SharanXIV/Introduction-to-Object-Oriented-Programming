@@ -1,0 +1,9 @@
+Workshop 9 Reflection
+
+1. There is an error when compiled because the compiler does not recognize the template when it is placed into the .cpp file. The compiler needs to read the template code and the function code at the same time.
+
+2. Just like above, we can't use the template before it is compiled unless we declare or define it first. In this scenario it still will not work, even if it is declared after main.
+
+3. The overloaded functions could have worked but it introduces a lot of redundant code and extra work. Templates reduce the repeating code by allowing varying parameter types instead of seperate functions for each data type.
+
+4. Yes, the keywords 'template' and 'class' are equivalent in this case.

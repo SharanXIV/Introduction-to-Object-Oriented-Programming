@@ -1,0 +1,21 @@
+Workshop 5 Reflection
+
+1. The overloaded + function returns a copy of the object and not modifying the object by sending a reference of it. The workshop specifies "your function returns a copy of the result of the addition operation in reduced form" which means the original value is unmodified.
+
+2.      (a + b).display();
+
+        (b + d).display();
+
+        (b += d).display();
+
+3. Using the reduce function multiple times to make the fractions go to their lowest possible representation. Also, used the == operator in the != operator to return the opposite bool value.
+
+4. I have learned that we can overload operators to add, multiply, equals to and not equals between two classes. I have also learned to create temporary objects to help do these calculations.
+
+Quiz 5 Reflections
+
+2. int* student
+
+3. I forgot to set the variable pointer to nullptr.
+	var = nullptr;
+	*this = OOP244(); 

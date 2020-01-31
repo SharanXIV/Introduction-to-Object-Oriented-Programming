@@ -1,0 +1,10 @@
+Workshop 8 Reflection
+
+1. The difference between an abstract base class and a concrete class is that an abstract class contains pure virtual functions and defines an interface while a concrete class is a derived class that implements that interface.
+
+2. The 'credit', 'debit', 'monthEnd', 'display' and 'CreateAccount' functions are shadowing from 'iAccount'.
+   The 'credit' and 'debit' functions are shadowing through 'Account' and 'ChequingAccount'.
+   The 'monthEnd' and 'display' functions are shadowing through 'SavingsAccount' and 'ChequingAccount'.
+   The 'CreateAccount' function is shadowing through 'Allocator'.
+
+3. I have learned how to appropriately derived classes with multiple files from an abstract base class in a seperate module. I have also expanded my knowledge of shadow functions and virtual functions.

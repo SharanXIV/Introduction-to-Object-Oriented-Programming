@@ -1,0 +1,312 @@
+//***********************************************************************
+// OOP244 Milestone 3: The Product Class
+// Filename:           Product.cpp
+// Date:	             2018/07/28
+// Author:	           Sharan Shanmugaratnam
+//***********************************************************************
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <iomanip>
+#include "Product.h"
+#include "ErrorState.h"
+
+using namespace std;
+
+namespace AMA {
+
+  void Product::name(const char* name) {
+    if (name == nullptr) {
+      m_name = nullptr;
+    }
+    else {
+      m_name = new char[max_name_length + 1];
+      strncpy(m_name, name, max_name_length + 1);
+      m_name[max_name_length] = '\0';
+    }
+  }
+
+  const char* Product::name() const {
+    return m_name;
+  }
+
+  const char* Product::sku() const {
+    return m_sku;
+  }
+
+  const char* Product::unit() const {
+    return m_unit;
+  }
+
+  bool Product::taxed() const {
+    return m_taxable;
+  }
+
+  double Product::price() const {
+    return m_pricePreTax;
+  }
+
+  double Product::cost() const {
+    if (m_taxable) {
+      return m_pricePreTax + (m_pricePreTax*tax_rate);
+    }
+    else {
+      return m_pricePreTax;
+    }
+  }
+
+  void Product::message(const char* errState) {
+    m_errState.message(errState);
+  }
+
+  bool Product::isClear() const {
+    return (m_errState.message() == NULL);
+  }
+
+  // Constructor with one argument.
+  //
+  Product::Product(char type) {
+    m_productType = type;
+    m_sku[0] = '\0';
+    m_unit[0] = '\0';
+    m_name = nullptr;
+    m_qtyOnHand = 0;
+    m_qtyNeeded = 0;
+    m_pricePreTax = 0.0;
+    m_taxable = false;
+  }
+
+  // Constructor with seven arguments.
+  //
+  Product::Product(const char* sku, const char* name_, const char* unit, int qtyOnHand, bool taxable, double pricePreTax, int qtyNeeded) {
+    strcpy(m_sku, sku);
+    name(name_);
+    strcpy(m_unit, unit);
+    m_qtyOnHand = qtyOnHand;
+    m_taxable = taxable;
+    m_pricePreTax = pricePreTax;
+    m_qtyNeeded = qtyNeeded;
+  }
+
+  // Copy constructor.
+  //
+  Product::Product(const Product& product) {
+    if (product.m_name != '\0') {
+      name(product.m_name);
+    }
+
+    strcpy(m_sku, product.m_sku);
+    strcpy(m_unit, product.m_unit);
+    strncpy(m_name, product.m_name, max_name_length + 1);
+
+    m_qtyOnHand = product.m_qtyOnHand;
+    m_taxable = product.m_taxable;
+    m_pricePreTax = product.m_pricePreTax;
+    m_qtyNeeded = product.m_qtyNeeded;
+  }
+
+  // Copy Assignment Operator.
+  //
+  Product& Product::operator= (const Product& product) {
+    if (this != &product) { // Check for self-assignment.
+      strcpy(m_sku, product.m_sku);
+      strcpy(m_unit, product.m_unit);
+
+      m_qtyOnHand = product.m_qtyOnHand;
+      m_taxable = product.m_taxable;
+      m_pricePreTax = product.m_pricePreTax;
+      m_qtyNeeded = product.m_qtyNeeded;
+
+      delete[] m_name;
+      name(product.m_name);
+    }
+
+    return *this;
+  }
+
+  // Destructor.
+  //
+  Product::~Product() {
+    delete[] m_name;
+  }
+
+  std::fstream& Product::store(std::fstream& file, bool newLine) const {
+    file << m_productType << ", " << m_name << ", " << m_taxable << ", " << m_pricePreTax
+      << ", " << m_qtyOnHand << ", " << m_qtyNeeded;
+
+    if (newLine) {
+      file << endl;
+    }
+
+    return file;
+  }
+
+  std::fstream& Product::load(std::fstream& file) {
+    Product temp;
+
+    temp.m_name = new char[max_name_length + 1];
+
+    if (file.is_open()) {
+      file >> temp.m_productType >> temp.m_sku >> temp.m_unit >> temp.m_name >> temp.m_qtyOnHand >> temp.m_taxable >> temp.m_pricePreTax >> temp.m_qtyNeeded;
+      *this = temp;
+    }
+
+    delete[] temp.m_name;
+    temp.m_name = nullptr;
+
+    return file;
+  }
+
+  std::ostream& Product::write(std::ostream& os, bool linear) const {
+    if (linear) {
+      os << setw(max_sku_length) << left << m_sku << "|" << setw(20) << left << m_name << "|"
+        << setw(7) << right << fixed << setprecision(2) << cost() << "|"
+        << setw(4) << right << m_qtyOnHand << "|" << setw(10) << left << m_unit << "|"
+        << setw(4) << right << m_qtyNeeded << "|";
+    }
+    else {
+      os << "Sku: " << m_sku << "|" << endl << "Name: " << m_name << "|" << endl << "Price: " << m_pricePreTax << "|" << endl;
+      if (m_taxable) {
+        os << "Price after tax: " << cost() << "|" << endl;
+      }
+      else {
+        os << "N/A" << "|" << endl;
+      }
+      os << "Quantity On hand: " << m_qtyOnHand << "|" << endl << "Quantity needed: " << m_qtyNeeded << endl;
+    }
+
+    return os;
+  }
+
+  std::istream& Product::read(std::istream& is) {
+    char f_sku[max_sku_length + 1];
+    char* f_name = new char[max_name_length + 1];
+    char f_unit[max_unit_length + 1];
+    int f_qtyOnHand;
+    int f_qtyNeeded;
+    double f_pricePreTax;
+    char f_taxed;
+    bool f_taxable;
+    ErrorState f_errState;
+
+    cout << " Sku: ";
+    is >> f_sku;
+    cout << " Name (no spaces): ";
+    is >> f_name;
+    cout << " Unit: ";
+    is >> f_unit;
+    cout << " Taxed? (y/n): ";
+    is >> f_taxed;
+
+    if (f_taxed == 'y' || f_taxed == 'Y') {
+      f_taxable = true;
+    }
+    else if (f_taxed == 'n' || f_taxed == 'N') {
+      f_taxable = false;
+    }
+    else {
+      is.setstate(std::ios::failbit); // stream error state flag set to input/output operation failed.
+      f_errState.message("Only (Y)es or (N)o are acceptable");
+    }
+
+    if (!is.fail()) {
+      cout << " Price: ";
+      is >> f_pricePreTax;
+      if (is.fail()) {
+        f_errState.message("Invalid Price Entry");
+      }
+    }
+
+    if (!is.fail()) {
+      cout << " Quantity on hand: ";
+      is >> f_qtyOnHand;
+      if (is.fail()) {
+        f_errState.message("Invalid Quantity Entry");
+      }
+    }
+
+    if (!is.fail()) {
+      cout << " Quantity needed: ";
+      is >> f_qtyNeeded;
+      if (is.fail()) {
+        f_errState.message("Invalid Quantity Needed Entry");
+      }
+    }
+
+    if (!is.fail()) {
+      Product t = Product(f_sku, f_name, f_unit, f_qtyOnHand, f_taxable, f_pricePreTax, f_qtyNeeded);
+      *this = t;
+    }
+
+    delete[] f_name;
+    f_name = nullptr;
+    return is;
+  }
+
+  bool Product::operator== (const char* sku) const {
+    return (strcmp(sku, m_sku) == 0);
+  }
+
+  double Product::total_cost() const {
+    double cost;
+    if (m_taxable) {
+      cost = m_qtyOnHand * m_pricePreTax * (1 + tax_rate);
+    }
+    else {
+      cost = m_qtyOnHand * m_pricePreTax;
+    }
+
+    return cost;
+  }
+
+  void Product::quantity(int qtyOnHand) {
+    m_qtyOnHand = qtyOnHand;
+  }
+
+  bool Product::isEmpty() const {
+    return (m_name[0] == '\0');
+  }
+
+  int Product::qtyNeeded() const {
+    return m_qtyNeeded;
+  }
+
+  int Product::quantity() const {
+    return m_qtyOnHand;
+  }
+
+  bool Product::operator>(const char* sku) const {
+    return (strcmp(m_sku, sku) > 0);
+  }
+
+  bool Product::operator<(const Product& product) const {
+    return (strcmp(m_name, product.m_name) > 0);
+  }
+
+  int Product::operator+=(int quantityAdded) {
+    if (quantityAdded > 0) {
+      m_qtyOnHand += quantityAdded;
+      return m_qtyOnHand;
+    }
+    else {
+      return m_qtyOnHand;
+    }
+  }
+
+  std::ostream& operator<< (std::ostream& os, const Product& product) {
+    product.write(os, true);
+    return os;
+  }
+
+  std::istream& operator>> (std::istream& is, Product& product) {
+    product.read(is);
+    return is;
+  }
+
+  double operator+= (double& cost, const Product& product) {
+    cost += product.total_cost();
+    return cost;
+  }
+}
